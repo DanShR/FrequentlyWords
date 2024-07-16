@@ -25,7 +25,7 @@ public class Item implements Comparable<Item> {
         if (countCompare != 0) {
             return countCompare;
         }
-        int minSize = Math.min(otherItem.getCount(), this.count);
+        int minSize = Math.min(otherItem.characters.size(), this.characters.size());
         for (int i = 0; i < minSize; i++) {
             int compare = Character.compare(otherItem.characters.get(i), this.characters.get(i));
             if (compare != 0) {
