@@ -1,3 +1,32 @@
+/*
+Описание решения
+Решение основано на ограничении, что не разрешено использовать такие классы как Map и String.
+Для решения я реализовал структуру "Префиксное дерево" (класс Node),
+в котором дополнительно в терминальной ноде создал поле "count" для подсчета количества слов.
+Посимвольно читается входной файл и формируется дерево.
+Для вывода 20-ти часто встречающихся слов я реализовал структуру данных "Куча"(также известная как "Приоритетная очередь" и "Пирамида").
+
+После построения дерева обходим его в глубину попутно собирая слова и в терминальных нодах сбрасываем их в кучу.
+
+В конце проходим по куче до конца, но не более 20-ти раз и выводим элементы.
+
+Временная сложность:
+   Посимвольная обработка файла и построение префиксного дерева O(n), где n-это количество символов
+   Обход в глубину O(n), где n-это количество узлов дерева
+   Вставка и удаление из кучи O(log n), где n-это количество элементов в куче, то есть слов в тексте
+   Таким образом общая временная сложность всего решения равна O(n), где n-это количество символов
+
+Пространственная сложность:
+    Префиксное дерево стоит O(n), где n-это суммарная длина уникальных слов в тексте
+    Куча стоит O(m), где m-это количество уникальных слов в тексте
+     Таким образом общая пространственная сложность всего решения равна:
+    O(m) + O(n), где n-это суммарная длина уникальных слов в тексте, m-это количество уникальных слов в тексте
+
+Причечание:
+Если решать без ограничений, то я бы сделал через HashMap<String,Integer> и PriorityQueue
+
+ */
+
 package kz.dan;
 
 import java.io.*;
@@ -25,14 +54,13 @@ public class Main {
                     } else {
                         currentNode = childNode;
                     }
-                } else {
-                    if (currentNode != root) {
-                        currentNode.setTerminal(true);
-                        currentNode.incrementCount();
-                        currentNode = root;
-                    }
+                } else if (currentNode != root) {
+                    currentNode.setTerminal(true);
+                    currentNode.incrementCount();
+                    currentNode = root;
                 }
             }
+            //если файл заканчивается значащим символом, то нужно про него не забыть
             if (currentNode != root) {
                 currentNode.setTerminal(true);
                 currentNode.incrementCount();
@@ -40,6 +68,7 @@ public class Main {
 
             int resultCount = 20;
             Heap heap = new Heap();
+            //в связанном списке будем накапливать слова при обходе дерева
             dfs(root, new LinkedList<>(), heap);
             int i = 0;
             while (!heap.isEmpty() && i < resultCount) {
@@ -59,10 +88,6 @@ public class Main {
         }
     }
 
-    private static void printUsage() {
-        System.out.println("java -jar app <path to file>");
-    }
-
     private static void dfs(Node node, LinkedList<Character> characters, Heap heap) {
         if (node.isTerminal()) {
             Item item = new Item(node.getCount(), new ArrayList<>(characters));
@@ -73,5 +98,10 @@ public class Main {
             dfs(curNode, characters, heap);
             characters.removeLast();
         }
+    }
+
+    private static void printUsage() {
+        System.out.println("Usage:");
+        System.out.println("java -jar FrequentlyWords.jar <path to file>");
     }
 }

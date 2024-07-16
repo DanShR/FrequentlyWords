@@ -10,6 +10,8 @@ public class Node {
     }
 
     public Node findChildNode(char value) {
+        //из-за ограничение на использование Map, здесь немного не оптимально.
+        //тут лучше подойдет HashMap вместо ArrayList т.к. поиск будет работать за O(1)
         for(Node node: children) {
             if (node.getNodeValue().equals(value)) {
                return node;
