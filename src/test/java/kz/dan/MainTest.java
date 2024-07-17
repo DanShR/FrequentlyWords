@@ -28,37 +28,33 @@ class MainTest {
 
     @Test
     void test1() throws IOException {
-        String absolutePath = new File("src/test/resources").getAbsolutePath();
-        Main.main(new String[]{absolutePath + "/TestCase1.txt"});
-
-        String answer = new String(getClass().getClassLoader().getResourceAsStream("AnswerCase1.txt").readAllBytes());
-        assertEquals(outContent.toString(), answer);
+        runTest("TestCase1.txt", "AnswerCase1.txt");
     }
 
     @Test
     void test2() throws IOException {
-        String absolutePath = new File("src/test/resources").getAbsolutePath();
-        Main.main(new String[]{absolutePath + "/TestCase2.txt"});
-
-        String answer = new String(getClass().getClassLoader().getResourceAsStream("AnswerCase2.txt").readAllBytes());
-        assertEquals(outContent.toString(), answer);
+        runTest("TestCase2.txt", "AnswerCase2.txt");
     }
 
     @Test
     void test3() throws IOException {
-        String absolutePath = new File("src/test/resources").getAbsolutePath();
-        Main.main(new String[]{absolutePath + "/TestCase3.txt"});
-
-        String answer = new String(getClass().getClassLoader().getResourceAsStream("AnswerCase3.txt").readAllBytes());
-        assertEquals(outContent.toString(), answer);
+        runTest("TestCase3.txt", "AnswerCase3.txt");
     }
 
     @Test
     void test4() throws IOException {
-        String absolutePath = new File("src/test/resources").getAbsolutePath();
-        Main.main(new String[]{absolutePath + "/TestCase4.txt"});
+        runTest("TestCase4.txt", "AnswerCase4.txt");
+    }
 
-        String answer = new String(getClass().getClassLoader().getResourceAsStream("AnswerCase4.txt").readAllBytes());
+    @Test
+    void test5() throws IOException {
+        runTest("TestCase5.txt", "AnswerCase5.txt");
+    }
+
+    void runTest(String testCaseName, String answerName) throws IOException {
+        String absolutePath = new File("src/test/resources/").getAbsolutePath();
+        Main.main(new String[]{absolutePath + "/" + testCaseName});
+        String answer = new String(getClass().getClassLoader().getResourceAsStream(answerName).readAllBytes());
         assertEquals(outContent.toString(), answer);
     }
 }
